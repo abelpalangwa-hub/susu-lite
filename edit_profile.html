@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-card">
+    <h2>Edit profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <div class="error-text">{{ field.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+</div>
+{% endblock %}

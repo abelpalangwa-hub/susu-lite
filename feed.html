@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="feed-layout">
+    <section class="feed-column">
+        <div class="card composer-card">
+            <h3>Create a post</h3>
+            <form method="post" action="{% url 'create_post' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ post_form.as_p }}
+                <button class="btn btn-primary" type="submit">Post</button>
+            </form>
+        </div>
+
+        {% for post in posts %}
+        <article class="card post-card" data-post-id="{{ post.id }}">
+            <div class="post-header">
+                <div>
+                    <strong>{{ post.author.username }}</strong>
+                    <div class="muted">{{ post.created_at }}</div>
+                </div>
+                {% if post.author == user %}
+                <div class="post-actions">
+                    <a href="{% url 'edit_post' post.id %}">Edit</a>
+                    <form method="post" action="{% url 'delete_post' post.id %}">
+                        {% csrf_token %}
+                        <button class="text-btn" type="submit">Delete</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            <p>{{ post.content }}</p>
+            {% if post.image %}
+                <img class="post-image" src="{{ post.image.url }}" alt="Post image">
+            {% endif %}
+            <div class="post-footer">
+                <button class="btn-like" data-post-id="{{ post.id }}">❤ <span class="like-count">{{ post.likes.count }}</span></button>
+                <span class="muted">{{ post.comments.count }} comments</span>
+            </div>
+            <div class="comments-section">
+                <form class="comment-form" data-post-id="{{ post.id }}">
+                    {% csrf_token %}
+                    <input type="text" class="form-control" name="content" placeholder="Write a comment" required>
+                    <button class="btn btn-secondary" type="submit">Comment</button>
+                </form>
+                <div class="comment-list" data-comment-list="{{ post.id }}"></div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="card">No posts yet. Be the first to share something.</div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

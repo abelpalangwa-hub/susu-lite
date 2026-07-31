@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="profile-card">
+    <div class="profile-header">
+        <div>
+            {% if profile.avatar %}
+                <img class="avatar large" src="{{ profile.avatar.url }}" alt="{{ profile_user.username }}">
+            {% else %}
+                <div class="avatar large placeholder">{{ profile_user.username|slice:':1'|upper }}</div>
+            {% endif %}
+        </div>
+        <div class="profile-info">
+            <h2>{{ profile_user.username }}</h2>
+            <p>{{ profile.bio }}</p>
+            <div class="stats">
+                <span><strong>{{ followers_count }}</strong> Followers</span>
+                <span><strong>{{ following_count }}</strong> Following</span>
+            </div>
+            {% if is_self %}
+                <a class="btn btn-secondary" href="{% url 'edit_profile' %}">Edit Profile</a>
+            {% else %}
+                <button class="btn btn-primary follow-btn" data-user-id="{{ profile_user.id }}">{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Posts</h3>
+    {% for post in profile_user.posts.all %}
+        <div class="post-card compact">
+            <p>{{ post.content }}</p>
+            <div class="muted">{{ post.created_at }}</div>
+        </div>
+    {% empty %}
+        <p>No posts yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
