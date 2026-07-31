@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Susu Lite{% endblock %}</title>
+
+  <!-- Optional: replace with your preferred font or remove -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{% url 'home' %}">Susu Lite</a>
+
+      <button class="menu-toggle" aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="hamburger"></span>
+      </button>
+
+      <nav id="site-nav" class="site-nav" role="navigation" aria-label="Primary">
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li>
+              <form method="post" action="{% url 'logout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-ghost">Logout</button>
+              </form>
+            </li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a class="btn" href="{% url 'register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container main-content" role="main">
+    {% if messages %}
+      <div class="messages" aria-live="polite">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">
+            <div class="message-content">
+              <strong class="message-type">{{ message.level_tag|capfirst }}</strong>
+              <div class="message-text">{{ message }}</div>
+            </div>
+            <button class="message-close" aria-label="Dismiss">&times;</button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© {{ now|date:"Y" }} Susu Lite — Built with ♥</p>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

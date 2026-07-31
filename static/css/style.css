@@ -1,0 +1,77 @@
+:root{
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#0ea5a4;
+  --accent-600:#059e98;
+  --danger:#ef4444;
+  --success:#16a34a;
+  --radius:10px;
+  --container:1100px;
+  --gap:1rem;
+  --glass:rgba(255,255,255,0.6);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#0f172a;background:var(--bg);-webkit-font-smoothing:antialiased}
+.container{max-width:var(--container);margin:0 auto;padding:1.25rem}
+
+/* Skip link */
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{position:static;width:auto;height:auto;margin:.5rem;padding:.4rem;background:#111;color:#fff;border-radius:6px;left:auto}
+
+/* Header */
+.site-header{background:linear-gradient(180deg,rgba(255,255,255,0.6),transparent);backdrop-filter:blur(4px);border-bottom:1px solid rgba(15,23,42,0.04)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 0}
+.brand{font-weight:700;color:var(--accent);font-size:1.25rem;text-decoration:none}
+.menu-toggle{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;background:transparent;cursor:pointer;border-radius:8px}
+.menu-toggle .hamburger{display:block;width:20px;height:2px;background:#111;position:relative}
+.menu-toggle .hamburger::after,.menu-toggle .hamburger::before{content:"";position:absolute;left:0;width:20px;height:2px;background:#111}
+.menu-toggle .hamburger::before{top:-6px}
+.menu-toggle .hamburger::after{top:6px}
+
+/* Nav */
+.site-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:.5rem;align-items:center}
+.site-nav a{color:var(--muted);text-decoration:none;padding:.5rem .7rem;border-radius:8px}
+.site-nav a:hover{background:rgba(14,165,164,0.08);color:var(--accent)}
+.logout-form{display:inline}
+.btn{background:var(--accent);color:#fff;padding:.5rem .85rem;border-radius:8px;text-decoration:none;border:0;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid rgba(15,23,42,0.06);padding:.4rem .7rem;border-radius:8px;cursor:pointer}
+
+/* Main content */
+.main-content{padding:2rem 0}
+.card{background:var(--card);border-radius:var(--radius);padding:1rem;box-shadow:0 6px 20px rgba(2,6,23,0.06);border:1px solid rgba(2,6,23,0.04)}
+.grid{display:grid;grid-template-columns:1fr;gap:1rem}
+
+/* Messages */
+.messages{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1rem}
+.message{display:flex;align-items:flex-start;justify-content:space-between;padding:.75rem 1rem;border-radius:8px;border:1px solid rgba(2,6,23,0.04);background:linear-gradient(180deg,rgba(255,255,255,0.85),transparent)}
+.message .message-content{display:flex;gap:.75rem;align-items:center}
+.message-type{font-weight:600;color:var(--muted);margin-right:.5rem}
+.message-text{color:#0f172a}
+.message-close{background:transparent;border:0;font-size:1.25rem;line-height:1;cursor:pointer;color:var(--muted)}
+
+/* message variants by Django level tag (e.g., success, error, warning, info) */
+.message.success{border-left:4px solid var(--success)}
+.message.error{border-left:4px solid var(--danger)}
+.message.warning{border-left:4px solid #f59e0b}
+.message.info{border-left:4px solid var(--accent)}
+
+/* Footer */
+.site-footer{border-top:1px solid rgba(15,23,42,0.04);padding:1.5rem 0;margin-top:2rem;color:var(--muted);font-size:.95rem}
+
+/* Utilities */
+.h-stack{display:flex;gap:.5rem;align-items:center}
+.center{display:flex;align-items:center;justify-content:center}
+
+/* Responsive */
+@media(max-width:860px){
+  .site-nav{position:fixed;right:0;top:64px;background:var(--card);width:260px;height:calc(100% - 64px);transform:translateX(110%);transition:transform .22s ease;border-left:1px solid rgba(2,6,23,0.04);padding:1rem;box-shadow:-8px 24px 48px rgba(2,6,23,0.08)}
+  .site-nav.open{transform:translateX(0)}
+  .site-nav ul{flex-direction:column;align-items:flex-start}
+  .menu-toggle{display:inline-flex}
+}
+@media(min-width:861px){
+  .menu-toggle{display:none}
+  .site-nav{position:static;height:auto;background:transparent}
+}
